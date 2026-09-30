@@ -1,0 +1,32 @@
+# Xcode / macOS
+.DS_Store
+**/xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+DerivedData/
+build/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager (when resolved inside the app)
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+
+# Secrets — live NewsAPI key (local xcconfig / env only; never commit)
+Secrets.xcconfig
+**/Secrets.xcconfig
+*.Secrets.xcconfig
+.env
+.env.*
+
+# Playgrounds / misc
+timeline.xctimeline
+playground.xcworkspace
+
+# CocoaPods / Carthage (unused, defensive)
+Pods/
+Carthage/Build/

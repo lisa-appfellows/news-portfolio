@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Unit Tests (iOS Simulator)
+    # GitHub has no iOS runners — use a Mac runner and target an iOS Simulator.
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          # Prefer the newest stable Xcode that ships with simulator runtimes
+          # on the current runner image (older Xcodes often only show placeholders).
+          xcode-version: latest-stable
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Prepare iOS simulators
+        run: |
+          # Rebuild CoreSimulator caches (known flake on macos-15 runners).
+          xcrun simctl list >/dev/null || true
+
+          if ! xcrun simctl list devices available | grep -q 'iPhone'; then
+            echo "No iPhone simulators available; downloading iOS platform..."
+            xcodebuild -downloadPlatform iOS
+            xcrun simctl list >/dev/null || true
+          fi
+
+          echo "== Runtimes =="
+          xcrun simctl list runtimes
+          echo "== Available devices =="
+          xcrun simctl list devices available
+
+      - name: Resolve simulator
+        id: sim
+        run: |
+          # Prefer simctl over xcodebuild -showdestinations: the latter often
+          # only lists placeholders until runtimes/caches are ready.
+          UDID=$(
+            xcrun simctl list devices available \
+              | sed -n 's/.*iPhone[^(]*(\([0-9A-Fa-f-]\{36\}\)).*/\1/p' \
+              | head -n 1
+          )
+
+          if [ -z "$UDID" ]; then
+            echo "No available iPhone simulator found after preparation"
+            xcodebuild -showdestinations -project NewsPortfolio.xcodeproj -scheme NewsPortfolio
+            exit 1
+          fi
+
+          echo "Using simulator UDID: $UDID"
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: App unit tests
+        run: |
+          mkdir -p TestResults
+          xcodebuild test \
+            -project NewsPortfolio.xcodeproj \
+            -scheme NewsPortfolio \
+            -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
+            -only-testing:NewsPortfolioTests \
+            -resultBundlePath TestResults/App.xcresult \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults
+          path: TestResults
+          if-no-files-found: ignore
