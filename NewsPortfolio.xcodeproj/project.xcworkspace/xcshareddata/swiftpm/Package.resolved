@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "news-feed-client",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lisa-appfellows/news-feed-client.git",
+      "state" : {
+        "revision" : "3aac90b4b396dba16cbbebbdf3d6e6158204ca80",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
