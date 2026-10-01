@@ -9,14 +9,8 @@ import XCTest
 @testable import NewsPortfolio
 
 final class FeedCacheDayTests: XCTestCase {
-    private var calendar: Calendar {
-        var cal = Calendar(identifier: .gregorian)
-        cal.timeZone = TimeZone(secondsFromGMT: 0)!
-        return cal
-    }
-
     func testFormatsLocalCalendarDay() {
-        let cal = calendar
+        let cal = TestSupport.calendar
 
         var comps = DateComponents()
         comps.year = 2026
@@ -31,7 +25,7 @@ final class FeedCacheDayTests: XCTestCase {
     }
 
     func testTodayUsesProvidedNow() {
-        let cal = calendar
+        let cal = TestSupport.calendar
 
         var comps = DateComponents()
         comps.year = 2025
