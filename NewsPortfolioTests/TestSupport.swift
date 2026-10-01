@@ -13,4 +13,27 @@ enum TestSupport {
     static let staticDate = Date(timeIntervalSince1970: 1_718_000_000)
     static let rawFeedCacheDay = "2026-06-01"
     static let feedCacheDay = FeedCacheDay(rawValue: rawFeedCacheDay)!
+
+    static var calendar: Calendar {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(secondsFromGMT: 0)!
+        return cal
+    }
+
+    static func newsPage1Article(
+        title: String,
+        url: String,
+        publishedDate: Date? = nil
+    ) -> NewsPage {
+        NewsPage(
+            articles: [
+                .init(title: title, url: url, publishedDate: publishedDate)
+            ],
+            totalResults: 1
+        )
+    }
+
+    static func newsPageEmpty() -> NewsPage {
+        NewsPage(articles: [], totalResults: 0)
+    }
 }

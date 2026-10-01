@@ -41,15 +41,10 @@ final class FileFeedCacheStoreTests: XCTestCase {
         let store = makeStore()
         let day = TestSupport.feedCacheDay
         let key = FeedCacheKey.topHeadlines(category: .business, day: day)
-        let page = NewsPage(
-            articles: [
-                .init(
-                    title: "Hello",
-                    url: "https://example.com/a",
-                    publishedDate: TestSupport.staticDate
-                )
-            ],
-            totalResults: 1
+        let page = TestSupport.newsPage1Article(
+            title: "Hello",
+            url: "https://example.com/a",
+            publishedDate: TestSupport.staticDate
         )
 
         let startingCacheDay = await store.lastCacheDay()
@@ -102,9 +97,9 @@ final class FileFeedCacheStoreTests: XCTestCase {
     func testPayloadSurvivesNewStoreInstance() async {
         let day = TestSupport.feedCacheDay
         let key = FeedCacheKey.topHeadlines(category: .technology, day: day)
-        let page = NewsPage(
-            articles: [.init(title: "Persisted", url: "https://example.com/p")],
-            totalResults: 1
+        let page = TestSupport.newsPage1Article(
+            title: "Persisted",
+            url: "https://example.com/p"
         )
 
         let write = makeStore()
@@ -123,10 +118,7 @@ final class FileFeedCacheStoreTests: XCTestCase {
         let key = FeedCacheKey.topHeadlines(category: .science, day: day)
 
         await store.save(
-            NewsPage(
-                articles: [.init(title: "Ok", url: "https://example.com/ok")],
-                totalResults: 1
-            ),
+            TestSupport.newsPage1Article(title: "Ok", url: "https://example.com/ok"),
             for: key,
             day: day
         )

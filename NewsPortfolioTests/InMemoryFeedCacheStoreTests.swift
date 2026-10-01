@@ -14,9 +14,9 @@ final class InMemoryFeedCacheStoreTests: XCTestCase {
         let store = InMemoryFeedCacheStore()
         let day = TestSupport.feedCacheDay
         let key = FeedCacheKey.topHeadlines(category: .business, day: day)
-        let page = NewsPage(
-            articles: [.init(title: "Hello", url: "https://example.com/a")],
-            totalResults: 1
+        let page = TestSupport.newsPage1Article(
+            title: "Hello",
+            url: "https://example.com/a"
         )
 
         let startingCacheDay = await store.lastCacheDay()
