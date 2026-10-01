@@ -14,7 +14,7 @@
 		043A6598306DC32800C80AD4 /* NewsPortfolioUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A6597306DC32800C80AD4 /* NewsPortfolioUITests.swift */; };
 		043A659A306DC32800C80AD4 /* NewsPortfolioUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A6599306DC32800C80AD4 /* NewsPortfolioUITestsLaunchTests.swift */; };
 		043A65A8306DF6E800C80AD4 /* NewsFeedClient in Frameworks */ = {isa = PBXBuildFile; productRef = 043A65A7306DF6E800C80AD4 /* NewsFeedClient */; };
-		043A65AC306DF80C00C80AD4 /* Secrets.xcconfiig.example in Resources */ = {isa = PBXBuildFile; fileRef = 043A65AB306DF80C00C80AD4 /* Secrets.xcconfiig.example */; };
+		043A65AC306DF80C00C80AD4 /* Secrets.xcconfig.example in Resources */ = {isa = PBXBuildFile; fileRef = 043A65AB306DF80C00C80AD4 /* Secrets.xcconfig.example */; };
 		043A65B0306DFAA500C80AD4 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A65AF306DFAA500C80AD4 /* AppConfiguration.swift */; };
 		043A65B5306E00D800C80AD4 /* FeedCacheDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A65B4306E00D800C80AD4 /* FeedCacheDay.swift */; };
 		043A65B7306E021800C80AD4 /* FeedCacheKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A65B6306E021800C80AD4 /* FeedCacheKey.swift */; };
@@ -53,7 +53,7 @@
 		043A6597306DC32800C80AD4 /* NewsPortfolioUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPortfolioUITests.swift; sourceTree = "<group>"; };
 		043A6599306DC32800C80AD4 /* NewsPortfolioUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPortfolioUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		043A65AA306DF7D900C80AD4 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
-		043A65AB306DF80C00C80AD4 /* Secrets.xcconfiig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.xcconfiig.example; sourceTree = "<group>"; };
+		043A65AB306DF80C00C80AD4 /* Secrets.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.xcconfig.example; sourceTree = "<group>"; };
 		043A65AD306DF86400C80AD4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		043A65AE306DF8BC00C80AD4 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		043A65AF306DFAA500C80AD4 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 		043A65A9306DF7BD00C80AD4 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				043A65AB306DF80C00C80AD4 /* Secrets.xcconfiig.example */,
+				043A65AB306DF80C00C80AD4 /* Secrets.xcconfig.example */,
 				043A65AA306DF7D900C80AD4 /* Secrets.xcconfig */,
 				043A65AD306DF86400C80AD4 /* Debug.xcconfig */,
 				043A65AE306DF8BC00C80AD4 /* Release.xcconfig */,
@@ -295,7 +295,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				043A65AC306DF80C00C80AD4 /* Secrets.xcconfiig.example in Resources */,
+				043A65AC306DF80C00C80AD4 /* Secrets.xcconfig.example in Resources */,
 				043A6584306DC32800C80AD4 /* Preview Assets.xcassets in Resources */,
 				043A6581306DC32800C80AD4 /* Assets.xcassets in Resources */,
 			);
