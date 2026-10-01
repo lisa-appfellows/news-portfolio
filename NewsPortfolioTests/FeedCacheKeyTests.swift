@@ -38,7 +38,7 @@ final class FeedCacheKeyTests: XCTestCase {
     
     func testEverythingDatesAreStableISO8601() {
         let day = FeedCacheDay(rawValue: "2026-06-01")!
-        let from = Date(timeIntervalSince1970: 1_718_000_000) // fixed instant
+        let from = TestSupport.staticDate
         let key = FeedCacheKey.everything(
             q: "ios",
             language: "es",

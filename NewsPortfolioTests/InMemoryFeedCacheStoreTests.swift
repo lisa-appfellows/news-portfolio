@@ -12,7 +12,7 @@ import NewsFeedClient
 final class InMemoryFeedCacheStoreTests: XCTestCase {
     func testSaveReadsBackAndUpdatesMarker() async {
         let store = InMemoryFeedCacheStore()
-        let day = FeedCacheDay(rawValue: "2026-06-01")!
+        let day = TestSupport.feedCacheDay
         let key = FeedCacheKey.topHeadlines(category: .business, day: day)
         let page = NewsPage(
             articles: [.init(title: "Hello", url: "https://example.com/a")],
@@ -35,7 +35,7 @@ final class InMemoryFeedCacheStoreTests: XCTestCase {
 
     func testRemovePayloadLeavesMarker() async {
         let store = InMemoryFeedCacheStore()
-        let day = FeedCacheDay(rawValue: "2026-06-01")!
+        let day = TestSupport.feedCacheDay
         let key = FeedCacheKey.topHeadlines(category: .sports, day: day)
         let page = NewsPage(articles: [], totalResults: 1)
 
@@ -57,7 +57,7 @@ final class InMemoryFeedCacheStoreTests: XCTestCase {
 
     func testSetLastCacheDayAlone() async {
         let store = InMemoryFeedCacheStore()
-        let day = FeedCacheDay(rawValue: "2026-06-01")!
+        let day = TestSupport.feedCacheDay
         await store.setLastCacheDay(day)
 
         let cached = await store.lastCacheDay()
