@@ -1,0 +1,11 @@
+//
+//  Debug.xcconfig
+//  NewsPortfolio
+//
+//  Created by Lisa Fellows on 2026-09-30.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include? "Secrets.xcconfig"
