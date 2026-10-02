@@ -36,4 +36,20 @@ enum TestSupport {
     static func newsPageEmpty() -> NewsPage {
         NewsPage(articles: [], totalResults: 0)
     }
+
+    static func createNow(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int? = nil,
+        minute: Int? = nil
+    ) -> Date {
+        var comps = DateComponents()
+        comps.year = year
+        comps.month = month
+        comps.day = day
+        if let hour { comps.hour = hour }
+        if let minute { comps.minute = minute }
+        return calendar.date(from: comps)!
+    }
 }

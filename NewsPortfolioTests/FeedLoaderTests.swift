@@ -14,12 +14,7 @@ final class FeedLoaderTests: XCTestCase {
     private let today = FeedCacheDay(rawValue: "2026-06-02")!
 
     private var now: Date {
-        var comps = DateComponents()
-        comps.year = 2026
-        comps.month = 6
-        comps.day = 2
-        comps.hour = 10
-        return TestSupport.calendar.date(from: comps)!
+        TestSupport.createNow(year: 2026, month: 6, day: 2, hour: 10)
     }
 
     private func makeKey(_ day: FeedCacheDay) -> FeedCacheKey {

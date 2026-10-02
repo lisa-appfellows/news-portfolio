@@ -11,13 +11,7 @@ import XCTest
 final class DiscoverTimeFrameTests: XCTestCase {
     private var calendar: Calendar { TestSupport.calendar }
     private var now: Date {
-        var comps = DateComponents()
-        comps.year = 2026
-        comps.month = 6
-        comps.day = 2
-        comps.hour = 10
-        comps.minute = 30
-        return calendar.date(from: comps)!
+        TestSupport.createNow(year: 2026, month: 6, day: 2, hour: 10, minute: 30)
     }
 
     func testTodayStartsAtStartOfDayEndsAtNow() {

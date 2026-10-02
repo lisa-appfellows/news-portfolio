@@ -7,11 +7,13 @@
 
 import SwiftUI
 
+@MainActor
 @main
 struct NewsPortfolioApp: App {
+    @State private var mainHomeModel = AppComposition.makeMainHomeModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainHomeView(model: mainHomeModel)
         }
     }
 }

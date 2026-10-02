@@ -12,12 +12,7 @@ import NewsFeedClient
 final class FeedFetchingTests: XCTestCase {
     private let today = TestSupport.feedCacheDay
     private var now: Date {
-        var comps = DateComponents()
-        comps.year = 2026
-        comps.month = 6
-        comps.day = 1
-        comps.hour = 10
-        return TestSupport.calendar.date(from: comps)!
+        TestSupport.createNow(year: 2026, month: 6, day: 1, hour: 10)
     }
 
     private func collect(_ stream: AsyncStream<FeedLoadEvent>) async -> [FeedLoadEvent] {

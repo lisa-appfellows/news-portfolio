@@ -12,14 +12,8 @@ import NewsFeedClient
 final class DiscoverFeedQueryTests: XCTestCase {
     private var calendar: Calendar { TestSupport.calendar }
     private let day = TestSupport.feedCacheDay
-
     private var now: Date {
-        var comps = DateComponents()
-        comps.year = 2026
-        comps.month = 6
-        comps.day = 2
-        comps.hour = 15
-        return calendar.date(from: comps)!
+        TestSupport.createNow(year: 2026, month: 6, day: 2, hour: 15)
     }
 
     func testRequestUsesPublishedAtAndPageSize() {
