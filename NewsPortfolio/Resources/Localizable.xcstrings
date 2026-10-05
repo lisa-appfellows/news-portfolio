@@ -126,6 +126,40 @@
         }
       }
     },
+    "main.drillIn.loadMoreError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load more articles."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudieron cargar más artículos."
+          }
+        }
+      }
+    },
+    "main.drillIn.loadMoreRetry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reintentar"
+          }
+        }
+      }
+    },
     "main.empty.message" : {
       "extractionState" : "manual",
       "localizations" : {

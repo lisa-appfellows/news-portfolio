@@ -10,10 +10,19 @@ import SwiftUI
 @MainActor
 @main
 struct NewsPortfolioApp: App {
-    @State private var mainHomeModel = AppComposition.makeMainHomeModel()
+    private let feeds: FeedFetching
+    @State private var mainHomeModel: MainHomeModel
+
+    init() {
+        let feeds = AppComposition.makeFeedFetching()
+        self.feeds = feeds
+        let mainHome = AppComposition.makeMainHomeModel(feeds: feeds)
+        _mainHomeModel = State(initialValue: mainHome)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            MainHomeView(model: mainHomeModel)
+            MainHomeView(model: mainHomeModel, feeds: feeds)
         }
     }
 }

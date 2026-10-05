@@ -10,11 +10,13 @@ import NewsFeedClient
 
 enum AppComposition {
     @MainActor
-    static func makeMainHomeModel() -> MainHomeModel {
-        let store = makeStore()
-        let client = makeNewsClient()
-        let feeds = FeedFetching.live(store: store, client: client)
-        return MainHomeModel(feeds: feeds)
+    static func makeFeedFetching() -> FeedFetching {
+        FeedFetching.live(store: makeStore(), client: makeNewsClient())
+    }
+
+    @MainActor
+    static func makeMainHomeModel(feeds: FeedFetching) -> MainHomeModel {
+        .init(feeds: feeds)
     }
 
     private static func makeStore() -> any FeedCacheStoring {

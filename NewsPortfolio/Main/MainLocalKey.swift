@@ -13,6 +13,8 @@ enum MainLocalKey {
     static let sectionError = LocalizedStringResource("main.section.error")
     static let emptyTitle = LocalizedStringResource("main.empty.title")
     static let emptyMessage = LocalizedStringResource("main.empty.message")
+    static let loadMoreError = LocalizedStringResource("main.drillIn.loadMoreError")
+    static let loadMoreRetry = LocalizedStringResource("main.drillIn.loadMoreRetry")
 
     static func category(_ category: NewsCategory) -> LocalizedStringResource {
         .init(String.LocalizationValue("main.category.\(category.rawValue)"))

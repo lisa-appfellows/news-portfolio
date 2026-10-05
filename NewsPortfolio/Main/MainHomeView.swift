@@ -5,31 +5,39 @@
 //  Created by Lisa Fellows on 2026-10-01.
 //
 
-import SwiftUI
 import NewsFeedClient
+import SwiftUI
 
 struct MainHomeView: View {
     @Bindable var model: MainHomeModel
+    let feeds: FeedFetching
 
     var body: some View {
-        Group {
-            if model.isFullyFailed {
-                fullTabEmpty
-            } else {
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 28) {
-                        ForEach(model.sections) { section in
-                            MainHomeSectionView(section: section)
+        NavigationStack {
+            Group {
+                if model.isFullyFailed {
+                    fullTabEmpty
+                } else {
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 28) {
+                            ForEach(model.sections) { section in
+                                MainHomeSectionView(section: section)
+                            }
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 20)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 20)
                 }
             }
-        }
-        .background(MainPalette.background.ignoresSafeArea())
-        .task {
-            await model.loadHome()
+            .background(MainPalette.background.ignoresSafeArea())
+            .navigationDestination(for: MainCategoryRoute.self) { route in
+                MainDrillInView(
+                    model: MainDrillInModel(category: route.category, feeds: feeds)
+                )
+            }
+            .task {
+                await model.loadHome()
+            }
         }
     }
 
@@ -78,9 +86,7 @@ struct MainHomeSectionView: View {
                 .font(.system(.title2))
                 .tracking(1.8)
             Spacer()
-            Button {
-                // Drill-in later
-            } label: {
+            NavigationLink(value: MainCategoryRoute(category: section.category)) {
                 Text(MainLocalKey.seeAll)
                     .font(.subheadline)
             }
@@ -178,7 +184,7 @@ private struct ArticleSlotView: View {
 
 // MARK: - Palette
 // TODO: Replace with Asset Catalog colors
-private enum MainPalette {
+enum MainPalette {
     static let background = Color(red: 0.933, green: 0.945, blue: 0.957) // #EEF1F4
     static let slotFill = Color(red: 0.969, green: 0.973, blue: 0.980)   // #F7F8FA
     static let ink = Color.primary
@@ -187,13 +193,16 @@ private enum MainPalette {
 
 // MARK: - Preview
 #Preview {
-    MainHomeView(model: .preview)
+    MainHomeView(model: .preview, feeds: MainHomeModel.previewFeeds)
 }
 
 #if DEBUG
 extension MainHomeModel {
     @MainActor
-    static var preview: MainHomeModel {
+    static var preview: MainHomeModel { .init(feeds: previewFeeds) }
+
+    @MainActor
+    static var previewFeeds: FeedFetching {
         let page = NewsPage(
             articles: [
                 .init(title: "Preview hero headline", url: "https://example.com/1"),
@@ -205,12 +214,11 @@ extension MainHomeModel {
             ],
             totalResults: 6
         )
-        let feeds = FeedFetching(
+        return FeedFetching(
             loader: FeedLoader(store: InMemoryFeedCacheStore()),
             fetchTopHeadlines: { _ in page },
             fetchEverything: { _ in page }
         )
-        return MainHomeModel(feeds: feeds)
     }
 }
 #endif

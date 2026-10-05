@@ -11,8 +11,8 @@ import NewsFeedClient
 
 @MainActor
 final class MainHomeModelTests: XCTestCase {
-    private let yesterday = FeedCacheDay(rawValue: "2026-06-01")!
-    private let today = FeedCacheDay(rawValue: "2026-06-02")!
+    private let yesterday = TestSupport.yesterday
+    private let today = TestSupport.today
 
     private var now: Date {
         TestSupport.createNow(year: 2026, month: 6, day: 2, hour: 10)
@@ -22,10 +22,7 @@ final class MainHomeModelTests: XCTestCase {
         store: InMemoryFeedCacheStore = .init(),
         probe: HomeClientProbe
     ) -> MainHomeModel {
-        let feeds = FeedFetching(
-            loader: .init(store: store),
-            fetchTopHeadlines: { try await probe.topHeadlines($0) },
-            fetchEverything: { try await probe.everything($0) })
+        let feeds = TestSupport.createFeed(store: store, probe: probe)
         return MainHomeModel(
             feeds: feeds,
             calendar: TestSupport.calendar,
@@ -124,7 +121,7 @@ final class MainHomeModelTests: XCTestCase {
 }
 
 // MARK: - Helper
-private actor HomeClientProbe {
+private actor HomeClientProbe: TestFeedProbing {
     enum Behavior: Sendable {
         case page(NewsPage)
         case error(NewsFeedError)

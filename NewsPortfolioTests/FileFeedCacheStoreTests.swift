@@ -40,7 +40,7 @@ final class FileFeedCacheStoreTests: XCTestCase {
     func testSaveReadsBackandUpdatesMarker() async {
         let store = makeStore()
         let day = TestSupport.feedCacheDay
-        let key = FeedCacheKey.topHeadlines(category: .business, day: day)
+        let key = FeedCacheKey.topHeadlines(category: .business, day: day, pageSize: 6)
         let page = TestSupport.newsPage1Article(
             title: "Hello",
             url: "https://example.com/a",
@@ -68,7 +68,7 @@ final class FileFeedCacheStoreTests: XCTestCase {
     func testRemovePayloadLeavesMarker() async {
         let store = makeStore()
         let day = TestSupport.feedCacheDay
-        let key = FeedCacheKey.topHeadlines(category: .sports, day: day)
+        let key = FeedCacheKey.topHeadlines(category: .sports, day: day, pageSize: 6)
         let page = NewsPage(articles: [], totalResults: 1)
 
         await store.save(page, for: key, day: day)
@@ -96,7 +96,7 @@ final class FileFeedCacheStoreTests: XCTestCase {
 
     func testPayloadSurvivesNewStoreInstance() async {
         let day = TestSupport.feedCacheDay
-        let key = FeedCacheKey.topHeadlines(category: .technology, day: day)
+        let key = FeedCacheKey.topHeadlines(category: .technology, day: day, pageSize: 6)
         let page = TestSupport.newsPage1Article(
             title: "Persisted",
             url: "https://example.com/p"
@@ -115,7 +115,7 @@ final class FileFeedCacheStoreTests: XCTestCase {
     func testCorruptPayloadReturnsNil() async {
         let store = makeStore()
         let day = TestSupport.feedCacheDay
-        let key = FeedCacheKey.topHeadlines(category: .science, day: day)
+        let key = FeedCacheKey.topHeadlines(category: .science, day: day, pageSize: 6)
 
         await store.save(
             TestSupport.newsPage1Article(title: "Ok", url: "https://example.com/ok"),

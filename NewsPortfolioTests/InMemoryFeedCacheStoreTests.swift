@@ -13,7 +13,7 @@ final class InMemoryFeedCacheStoreTests: XCTestCase {
     func testSaveReadsBackAndUpdatesMarker() async {
         let store = InMemoryFeedCacheStore()
         let day = TestSupport.feedCacheDay
-        let key = FeedCacheKey.topHeadlines(category: .business, day: day)
+        let key = FeedCacheKey.topHeadlines(category: .business, day: day, pageSize: 6)
         let page = TestSupport.newsPage1Article(
             title: "Hello",
             url: "https://example.com/a"
@@ -36,7 +36,7 @@ final class InMemoryFeedCacheStoreTests: XCTestCase {
     func testRemovePayloadLeavesMarker() async {
         let store = InMemoryFeedCacheStore()
         let day = TestSupport.feedCacheDay
-        let key = FeedCacheKey.topHeadlines(category: .sports, day: day)
+        let key = FeedCacheKey.topHeadlines(category: .sports, day: day, pageSize: 6)
         let page = NewsPage(articles: [], totalResults: 1)
 
         await store.save(page, for: key, day: day)

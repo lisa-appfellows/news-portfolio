@@ -17,6 +17,7 @@ struct FeedCacheKey: Hashable, Sendable {
         country: String = "us",
         category: NewsCategory,
         day: FeedCacheDay,
+        pageSize: Int,
         page: Int = 1
     ) ->  FeedCacheKey {
         FeedCacheKey(
@@ -25,6 +26,7 @@ struct FeedCacheKey: Hashable, Sendable {
                 country, 
                 category.rawValue,
                 day.rawValue, 
+                "ps\(pageSize)",
                 "p\(page)"
             ]
             .joined(separator: "|")
