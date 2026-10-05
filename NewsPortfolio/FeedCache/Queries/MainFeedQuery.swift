@@ -43,6 +43,7 @@ struct MainFeedQuery: Equatable, Sendable {
             country: country,
             category: category,
             day: day,
+            pageSize: kind.pageSize(for: category),
             page: kind.page
         )
     }

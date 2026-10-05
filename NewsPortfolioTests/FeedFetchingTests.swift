@@ -12,12 +12,7 @@ import NewsFeedClient
 final class FeedFetchingTests: XCTestCase {
     private let today = TestSupport.feedCacheDay
     private var now: Date {
-        var comps = DateComponents()
-        comps.year = 2026
-        comps.month = 6
-        comps.day = 1
-        comps.hour = 10
-        return TestSupport.calendar.date(from: comps)!
+        TestSupport.createNow(year: 2026, month: 6, day: 1, hour: 10)
     }
 
     private func collect(_ stream: AsyncStream<FeedLoadEvent>) async -> [FeedLoadEvent] {
@@ -29,11 +24,7 @@ final class FeedFetchingTests: XCTestCase {
     }
 
     private func makeFetching(store: InMemoryFeedCacheStore, probe: ClientProbe) -> FeedFetching {
-        .init(
-            loader: FeedLoader(store: store),
-            fetchTopHeadlines: { try await probe.topHeadlines($0) },
-            fetchEverything: { try await probe.everything($0) }
-        )
+        TestSupport.createFeed(store: store, probe: probe)
     }
 
     func testLoadMainUsesTopHeadlinesAndSaves() async {
@@ -114,7 +105,7 @@ final class FeedFetchingTests: XCTestCase {
 }
 
 // MARK: - Helper
-private actor ClientProbe {
+private actor ClientProbe: TestFeedProbing {
     private let page: NewsPage
     private(set) var topHeadlinesCount = 0
     private(set) var everythingCount = 0

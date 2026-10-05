@@ -16,10 +16,30 @@ final class FeedCacheKeyTests: XCTestCase {
             country: "us",
             category: .technology,
             day: day,
+            pageSize: 4,
             page: 1
         )
         
-        XCTAssertEqual(key.rawValue, "topHeadlines|us|technology|2026-06-01|p1")
+        XCTAssertEqual(key.rawValue, "topHeadlines|us|technology|2026-06-01|ps4|p1")
+    }
+
+    func testHomeAndDrillInPageOneDoNotShareKey() {
+        let day = TestSupport.feedCacheDay
+        let home = FeedCacheKey.topHeadlines(
+            category: .technology,
+            day: day,
+            pageSize: 4,
+            page: 1
+        )
+
+        let drillIn = FeedCacheKey.topHeadlines(
+            category: .technology,
+            day: day,
+            pageSize: 20,
+            page: 1
+        )
+
+        XCTAssertNotEqual(home, drillIn)
     }
     
     func testEverythingIncludesPageAndNilDates() {

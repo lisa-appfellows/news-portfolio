@@ -41,7 +41,15 @@ final class MainFeedQueryTests: XCTestCase {
         let query = MainFeedQuery(category: .science, kind: .home)
         XCTAssertEqual(
             query.makeKey(day).rawValue,
-            "topHeadlines|us|science|2026-06-01|p1"
+            "topHeadlines|us|science|2026-06-01|ps6|p1"
+        )
+    }
+
+    func testDrillInMakeKeyUsesPageSizeTwenty() {
+        let query = MainFeedQuery(category: .technology, kind: .drillIn(page: 1))
+        XCTAssertEqual(
+            query.makeKey(day).rawValue,
+            "topHeadlines|us|technology|2026-06-01|ps20|p1"
         )
     }
 }
