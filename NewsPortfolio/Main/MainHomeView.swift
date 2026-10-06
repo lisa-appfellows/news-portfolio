@@ -153,7 +153,7 @@ private struct ArticleSlotView: View {
     let style: Style
 
     private var imageURL: URL? {
-        ArticleImageURL.parse(article.urlToImage)
+        HTTPURL.parse(article.urlToImage)
     }
 
     var body: some View {
@@ -199,6 +199,7 @@ private struct ArticleSlotView: View {
         .frame(height: height)
         .contentShape(Rectangle())
         .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+        .opensArticle(urlString: article.url)
     }
 
     private var height: CGFloat {

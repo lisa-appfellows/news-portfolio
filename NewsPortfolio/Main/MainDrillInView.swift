@@ -92,7 +92,7 @@ private struct DrillInArticleCard: View {
     let article: Article
 
     private var imageURL: URL? {
-        ArticleImageURL.parse(article.urlToImage)
+        HTTPURL.parse(article.urlToImage)
     }
 
     var body: some View {
@@ -154,6 +154,7 @@ private struct DrillInArticleCard: View {
             .background(Color.white.opacity(0.55))
         }
         .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+        .opensArticle(urlString: article.url)
     }
 }
 
