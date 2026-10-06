@@ -11,12 +11,23 @@ import NewsFeedClient
 enum AppComposition {
     @MainActor
     static func makeFeedFetching() -> FeedFetching {
-        FeedFetching.live(store: makeStore(), client: makeNewsClient())
+        .live(store: makeStore(), client: makeNewsClient())
     }
 
     @MainActor
     static func makeMainHomeModel(feeds: FeedFetching) -> MainHomeModel {
         .init(feeds: feeds)
+    }
+
+    @MainActor
+    static func makeImageLoader() -> ImageLoader {
+        let disk: any ImageDiskCaching
+        do {
+            disk = try ImageDiskCache.makeDefault()
+        } catch {
+            disk = NoImageDiskCache()
+        }
+        return .init(disk: disk, fetch: ImageFetcher.urlSession())
     }
 
     private static func makeStore() -> any FeedCacheStoring {

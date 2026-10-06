@@ -5,8 +5,8 @@
 //  Created by Lisa Fellows on 2026-10-01.
 //
 
-import Foundation
 import NewsFeedClient
+import UIKit
 @testable import NewsPortfolio
 
 protocol TestFeedProbing {
@@ -26,6 +26,23 @@ enum TestSupport {
         var cal = Calendar(identifier: .gregorian)
         cal.timeZone = TimeZone(secondsFromGMT: 0)!
         return cal
+    }
+
+    static func sleep(_ nano: UInt64 = 50_000_000) async {
+        try? await Task.sleep(nanoseconds: nano)
+    }
+
+    static func waitUntil(
+        timeoutNanoseconds: UInt64 = 1_000_000_000, // 1s
+        pollNanoseconds: UInt64 = 5_000_000, // 5ms
+        _ condition: () async -> Bool
+    ) async -> Bool {
+        let deadline = DispatchTime.now().uptimeNanoseconds + timeoutNanoseconds
+        while DispatchTime.now().uptimeNanoseconds < deadline {
+            if await condition() { return true }
+            try? await Task.sleep(nanoseconds: pollNanoseconds)
+        }
+        return await condition()
     }
 
     static func newsPage1Article(
@@ -70,5 +87,16 @@ enum TestSupport {
             fetchTopHeadlines: { try await probe.topHeadlines($0) },
             fetchEverything: { try await probe.everything($0) }
         )
+    }
+
+    static func createImageURL(_ path: String) -> URL {
+        URL(string: "https://example.com/\(path).jpg")!
+    }
+
+    static func sampleImage(seed: CGFloat = 1) -> UIImage {
+        UIGraphicsImageRenderer(size: .init(width: 64, height: 64)).image { context in
+            UIColor(red: seed, green: 0.2, blue: 0.5, alpha: 1).setFill()
+            context.fill(.init(x: 0, y: 0, width: 64, height: 64))
+        }
     }
 }

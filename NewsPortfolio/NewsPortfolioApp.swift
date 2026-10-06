@@ -11,11 +11,13 @@ import SwiftUI
 @main
 struct NewsPortfolioApp: App {
     private let feeds: FeedFetching
+    private let imageLoader: ImageLoader
     @State private var mainHomeModel: MainHomeModel
 
     init() {
         let feeds = AppComposition.makeFeedFetching()
         self.feeds = feeds
+        self.imageLoader = AppComposition.makeImageLoader()
         let mainHome = AppComposition.makeMainHomeModel(feeds: feeds)
         _mainHomeModel = State(initialValue: mainHome)
     }
@@ -23,6 +25,7 @@ struct NewsPortfolioApp: App {
     var body: some Scene {
         WindowGroup {
             MainHomeView(model: mainHomeModel, feeds: feeds)
+                .environment(\.imageLoader, imageLoader)
         }
     }
 }

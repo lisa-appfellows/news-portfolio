@@ -56,7 +56,7 @@ struct MainHomeSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            header
+            header.zIndex(1)
 
             switch section.phase {
             case .idle, .loading:
@@ -140,6 +140,8 @@ private struct CategoryGridView: View {
 // MARK: - Slot
 // text fallback until image loader exists
 private struct ArticleSlotView: View {
+    @Environment(\.imageLoader) private var imageLoader
+
     enum Style {
         case hero
         case half
@@ -150,25 +152,78 @@ private struct ArticleSlotView: View {
     let article: Article
     let style: Style
 
+    private var imageURL: URL? {
+        ArticleImageURL.parse(article.urlToImage)
+    }
+
     var body: some View {
-        Text(article.title)
-            .font(titleFont)
-            .foregroundStyle(MainPalette.ink)
-            .multilineTextAlignment(.leading)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-            .padding(10)
-            .frame(maxWidth: .infinity)
-            .frame(height: height)
-            .background(MainPalette.slotFill)
-            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+        Group {
+            if let imageLoader, let imageURL {
+                VStack(alignment: .leading, spacing: 0) {
+                    RemoteImageView(url: imageURL, loader: imageLoader) {
+                        MainPalette.slotFill
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: imageHeight)
+                    .clipped()
+                    
+                    Text(article.title)
+                        .font(titleFont)
+                        .foregroundStyle(MainPalette.ink)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(titleLineLimit)
+                        .padding(8)
+                        .frame(
+                            maxWidth: .infinity,
+                            minHeight: height - imageHeight,
+                            alignment: .topLeading
+                        )
+                        .background(MainPalette.slotFill)
+                }
+            } else {
+                Text(article.title)
+                    .font(titleFont)
+                    .foregroundStyle(MainPalette.ink)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(titleLineLimit + 1)
+                    .padding(10)
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .bottomLeading
+                    )
+                    .background(MainPalette.slotFill)
+            }
+        }
+        .frame(minWidth: 0, maxWidth: .infinity)
+        .frame(height: height)
+        .contentShape(Rectangle())
+        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
     }
 
     private var height: CGFloat {
         switch style {
         case .hero: return 200
-        case .half: return 140
-        case .landscape: return 96
-        case .grid: return 120
+        case .half: return 160
+        case .landscape: return 120
+        case .grid: return 150
+        }
+    }
+
+    private var imageHeight: CGFloat {
+        switch style {
+        case .hero: return 140
+        case .half: return 88
+        case .landscape: return 64
+        case .grid: return 80
+        }
+    }
+
+    private var titleLineLimit: Int {
+        switch style {
+        case .hero: return 3
+        case .landscape: return 2
+        case .half, .grid: return 3
         }
     }
 
@@ -194,6 +249,7 @@ enum MainPalette {
 // MARK: - Preview
 #Preview {
     MainHomeView(model: .preview, feeds: MainHomeModel.previewFeeds)
+        .environment(\.imageLoader, AppComposition.makeImageLoader())
 }
 
 #if DEBUG
