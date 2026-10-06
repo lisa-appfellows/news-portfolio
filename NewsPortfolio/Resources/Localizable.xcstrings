@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "main.category.%@" : {
-
-    },
     "main.category.business" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -17,6 +17,7 @@ enum MainLocalKey {
     static let loadMoreRetry = LocalizedStringResource("main.drillIn.loadMoreRetry")
 
     static func category(_ category: NewsCategory) -> LocalizedStringResource {
-        .init(String.LocalizationValue("main.category.\(category.rawValue)"))
+        let key = "main.category.\(category.rawValue)"
+        return .init(String.LocalizationValue(stringLiteral: key))
     }
 }
