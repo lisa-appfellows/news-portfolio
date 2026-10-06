@@ -24,7 +24,7 @@ struct NewsPortfolioApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainHomeView(model: mainHomeModel, feeds: feeds)
+            RootTabView(feeds: feeds, mainHomeModel: mainHomeModel)
                 .environment(\.imageLoader, imageLoader)
         }
     }
