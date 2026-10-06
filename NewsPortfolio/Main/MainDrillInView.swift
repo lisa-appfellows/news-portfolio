@@ -88,14 +88,29 @@ struct MainDrillInView: View {
 // MARK: - Image-top card
 // text fallback until image loader
 private struct DrillInArticleCard: View {
+    @Environment(\.imageLoader) private var imageLoader
     let article: Article
+
+    private var imageURL: URL? {
+        ArticleImageURL.parse(article.urlToImage)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Image placeholder
             ZStack(alignment: .bottomLeading) {
-                MainPalette.slotFill
-                if article.urlToImage == nil {
+                Group {
+                    if let imageLoader, let imageURL {
+                        RemoteImageView(url: imageURL, loader: imageLoader) {
+                            MainPalette.slotFill
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .clipped()
+                    } else {
+                        MainPalette.slotFill
+                    }
+                }
+
+                if imageURL == nil {
                     Text(article.title)
                         .font(.system(.title3, design: .serif, weight: .semibold))
                         .foregroundStyle(MainPalette.ink)
@@ -114,7 +129,7 @@ private struct DrillInArticleCard: View {
             )
 
             VStack(alignment: .leading, spacing: 6) {
-                if article.urlToImage != nil {
+                if imageURL != nil {
                     Text(article.title)
                         .font(.headline)
                         .foregroundStyle(MainPalette.ink)
